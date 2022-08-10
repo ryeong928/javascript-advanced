@@ -24,15 +24,30 @@ user1.name = "park"
 user1.greeting()
 user1.getAge()
 
-// 생성자 함수의 프로토타입 : 생성자 함수의 모든 인스턴스는 프로토타입의 프로퍼티와 메서드를 사용할 수 있다
+// 정적 프로퍼티/메서드 : 생성자 함수 자체가 소유한 프로퍼티/메서드. 인스턴스로 호출할 수 없다
+User.staticProp = "static property"
+User.staticMethod = function(){console.log('static: ', this.staticProp)}
+User.staticMethod()
+
+// 생성자 함수의 프로토타입 : 생성자 함수의 prototype 프로퍼티를 통해 접근이 가능하다
+// 생성자 함수의 모든 인스턴스는 생성자 함수 프로토타입의 프로퍼티와 메서드를 사용할 수 있다
 User.prototype.height = 170
 User.prototype.doing = function(){console.log(this.height, "javascript")} // 화살표 함수 메서드로 하면 this 안먹힘
 user1.doing()
+// 생성자 함수의 인스턴스는 __proto__를 통해 생성자 함수 프로토타입에 접근할 수 있다
+user1.__proto__.doing()
+// instanceof : 우변의 생성자 함수의 prototype에 바인딩된 객체가 좌변의 객체의 프로토타입 체인 상에 존재하는지
+console.log('instanceof: ', user1 instanceof User)
+// 모든 프로토타입은 constructor 프로퍼티를 가지며, 이는 prototype 프로퍼티로 자신을 참조하는 생성자 함수를 가리킨다
+console.log('constructor 프로퍼티는 생성자 함수를 가리킨다: ', user1.constructor === User)
+// 모든 프로토타입의 프로토타입은 Object.prototype이다
+console.log('모든 프로토타입의 프로토타입은 Object.prototype: ', Object.getPrototypeOf(User.prototype) === Object.prototype)
+
 
 // 객체의 상속
 const car = {
   wheels: 4,
-  drive: () => {
+  drive: function() { // 화살표 함수에서는 this 안먹힘
     console.log(`i go with ${this.wheels} wheels`)
   }
 }
